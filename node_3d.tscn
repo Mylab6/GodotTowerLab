@@ -1,16 +1,21 @@
-[gd_scene load_steps=7 format=3 uid="uid://clm45340nmgap"]
+[gd_scene load_steps=9 format=3 uid="uid://clm45340nmgap"]
 
 [ext_resource type="Script" path="res://AimBasic.gd" id="1_o7ld3"]
+[ext_resource type="PackedScene" uid="uid://bym21w86uxsjs" path="res://blendFiles/top.blend" id="1_txy0u"]
 [ext_resource type="Script" path="res://tank.gd" id="2_0jjjf"]
+[ext_resource type="PackedScene" uid="uid://pa0po7pvpdw4" path="res://blendFiles/top5.tscn" id="3_a442w"]
+[ext_resource type="Shader" path="res://lowPoloy.gdshader" id="4_s0p62"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_82jds"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_an7kj"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_7cwdj"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p8epi"]
-albedo_color = Color(0.627112, 0.163564, 0.173707, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2f0hk"]
+render_priority = 0
+shader = ExtResource("4_s0p62")
+shader_parameter/inner_alpha = 0.0
+shader_parameter/albedo_f = Color(0.936411, 0.238245, 0.196412, 1)
+shader_parameter/Strength = 2.2
 
 [node name="Node3D" type="Node3D"]
 
@@ -25,21 +30,22 @@ mesh = SubResource("BoxMesh_82jds")
 
 [node name="Node3D" type="Node3D" parent="."]
 
+[node name="top" parent="Node3D" instance=ExtResource("1_txy0u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.23214, 0)
+visible = false
+script = ExtResource("1_o7ld3")
+
 [node name="CSGMesh3D2" type="CSGMesh3D" parent="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_an7kj")
 
-[node name="CSGMesh3D3" type="CSGMesh3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.03488, 0)
-mesh = SubResource("SphereMesh_7cwdj")
+[node name="top2" parent="Node3D" instance=ExtResource("3_a442w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.02552, 0)
 script = ExtResource("1_o7ld3")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="Node3D/CSGMesh3D3"]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, -1)
 
 [node name="Tank" type="CSGBox3D" parent="." groups=["tanks"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.83608, 1, 2.9064)
-material = SubResource("StandardMaterial3D_p8epi")
+material = SubResource("ShaderMaterial_2f0hk")
 script = ExtResource("2_0jjjf")
 
 [node name="Camera3D" type="Camera3D" parent="."]
