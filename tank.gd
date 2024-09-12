@@ -1,4 +1,4 @@
-extends CSGBox3D
+extends Node3D
 
 var speed = 2.0  # Movement speed
 var distance = 2.0  # Distance to move in each direction

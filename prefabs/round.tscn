@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0g2hcmiefpjw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wgk61"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_82jds"]
+
+[node name="Round" type="RigidBody3D"]
+transform = Transform3D(10, 0, 0, 0, 0.5, 0, 0, 0, 10, 0, 0, 0)
+lock_rotation = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_wgk61")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_82jds")

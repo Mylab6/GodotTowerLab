@@ -1,19 +1,13 @@
 [gd_scene load_steps=13 format=3 uid="uid://clm45340nmgap"]
 
 [ext_resource type="Script" path="res://AimBasic.gd" id="1_o7ld3"]
-[ext_resource type="PackedScene" uid="uid://bym21w86uxsjs" path="res://blendFiles/top.blend" id="1_txy0u"]
 [ext_resource type="Script" path="res://tank.gd" id="2_0jjjf"]
 [ext_resource type="PackedScene" uid="uid://pa0po7pvpdw4" path="res://blendFiles/top5.tscn" id="3_a442w"]
+[ext_resource type="PackedScene" uid="uid://ctegfklvkkr2w" path="res://prefabs/round_good.tscn" id="3_he7me"]
+[ext_resource type="PackedScene" uid="uid://d0g2hcmiefpjw" path="res://prefabs/round.tscn" id="3_m5aym"]
 [ext_resource type="Shader" path="res://lowPoloy.gdshader" id="4_s0p62"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_an7kj"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2f0hk"]
-render_priority = 0
-shader = ExtResource("4_s0p62")
-shader_parameter/inner_alpha = 0.54
-shader_parameter/albedo_f = Color(0.936411, 0.238245, 0.196412, 1)
-shader_parameter/Strength = 0.65
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xl1je"]
 
@@ -22,9 +16,14 @@ albedo_color = Color(1, 0.517647, 1, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_v2epq"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wgk61"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2f0hk"]
+render_priority = 0
+shader = ExtResource("4_s0p62")
+shader_parameter/inner_alpha = 0.54
+shader_parameter/albedo_f = Color(0.936411, 0.238245, 0.196412, 1)
+shader_parameter/Strength = 0.65
 
-[sub_resource type="BoxMesh" id="BoxMesh_82jds"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_ispdd"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -35,11 +34,6 @@ light_indirect_energy = 3.0
 
 [node name="Node3D" type="Node3D" parent="."]
 
-[node name="top" parent="Node3D" instance=ExtResource("1_txy0u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.23214, 0)
-visible = false
-script = ExtResource("1_o7ld3")
-
 [node name="CSGMesh3D2" type="CSGMesh3D" parent="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_an7kj")
@@ -47,11 +41,9 @@ mesh = SubResource("BoxMesh_an7kj")
 [node name="top2" parent="Node3D" instance=ExtResource("3_a442w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.02552, 0)
 script = ExtResource("1_o7ld3")
-
-[node name="Tank" type="CSGBox3D" parent="." groups=["tanks"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.83608, 1, 2.9064)
-material = SubResource("ShaderMaterial_2f0hk")
-script = ExtResource("2_0jjjf")
+projectile_scene = ExtResource("3_he7me")
+fire_rate = 0.5
+projectile_speed = 35.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50901, 6.35517)
@@ -66,13 +58,15 @@ material = SubResource("StandardMaterial3D_3eyk5")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
 shape = SubResource("SphereShape3D_v2epq")
 
-[node name="RigidBody3D2" type="RigidBody3D" parent="."]
-transform = Transform3D(10, 0, 0, 0, 0.5, 0, 0, 0, 10, 0, 0, 0)
-lock_rotation = true
-freeze = true
+[node name="Floor" parent="." instance=ExtResource("3_m5aym")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D2"]
-shape = SubResource("BoxShape3D_wgk61")
+[node name="TankParent" type="RigidBody3D" parent="."]
+physics_interpolation_mode = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.36703, 0, 0)
+script = ExtResource("2_0jjjf")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="RigidBody3D2"]
-mesh = SubResource("BoxMesh_82jds")
+[node name="TankRender" type="CSGBox3D" parent="TankParent" groups=["tanks"]]
+material = SubResource("ShaderMaterial_2f0hk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TankParent"]
+shape = SubResource("BoxShape3D_ispdd")
