@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://clm45340nmgap"]
+
+[ext_resource type="Script" path="res://AimBasic.gd" id="1_o7ld3"]
+[ext_resource type="Script" path="res://tank.gd" id="2_0jjjf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_82jds"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_an7kj"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_7cwdj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p8epi"]
+albedo_color = Color(0.627112, 0.163564, 0.173707, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.12838, 0.991725, 0, -0.991725, 0.12838, 0, 10, 0)
+light_energy = 4.0
+light_indirect_energy = 3.0
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 0.5, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("BoxMesh_82jds")
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_an7kj")
+
+[node name="CSGMesh3D3" type="CSGMesh3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.03488, 0)
+mesh = SubResource("SphereMesh_7cwdj")
+script = ExtResource("1_o7ld3")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D/CSGMesh3D3"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, -1)
+
+[node name="Tank" type="CSGBox3D" parent="." groups=["tanks"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.83608, 1, 2.9064)
+material = SubResource("StandardMaterial3D_p8epi")
+script = ExtResource("2_0jjjf")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50901, 6.35517)

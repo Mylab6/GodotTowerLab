@@ -1,0 +1,46 @@
+# Godot-specific ignores
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+
+# Imported translations (automatically generated from CSV files)
+*.translation
+
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+
+# System/tool-specific ignores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Godot 4+ specific ignores
+.godot/
+
+# Ignore generated folders
+/build/
+/dist/
+
+# Ignore binary files
+*.exe
+*.x86_64
+*.pck
+
+# Ignore logs
+*.log
+
+# Ignore save files
+*.save
+
+# Ignore binary resource files
+*.res
+
+# Ignore import files
+*.import
+
+# Ignore IDE settings
+*.code-workspace
